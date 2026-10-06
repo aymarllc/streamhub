@@ -2,11 +2,12 @@ import { useState, type FormEvent } from 'react'
 import { useRecent } from './library'
 import { itemKey, parseMediaLink, type MediaItem } from './media'
 import { Player } from './Player'
-import { SERVICES, getService, type MediaKind, type PlaybackMode, type Service } from './services'
+import { isDesktopApp, openService } from './platform'
+import { SERVICES, getService, type MediaKind, type PlaybackMode } from './services'
 
 const MODE_LABEL: Record<PlaybackMode, string> = {
   embed: 'Plays here',
-  web: 'Desktop window',
+  web: isDesktopApp() ? 'Opens in window' : 'Plays in desktop app',
   link: 'Opens app',
 }
 
@@ -28,16 +29,12 @@ export default function App() {
     e.preventDefault()
     const item = parseMediaLink(link)
     if (!item) {
-      setError('Paste a YouTube or Spotify link. More services are coming.')
+      setError("That link isn't one StreamHub can play yet. Try YouTube, Spotify, Apple Music, SoundCloud or Twitch.")
       return
     }
     setError('')
     setLink('')
     play(item)
-  }
-
-  function openService(service: Service) {
-    window.open(service.homeUrl, '_blank', 'noreferrer')
   }
 
   const services = SERVICES.filter((s) => filter === 'all' || s.kinds.includes(filter))
@@ -50,7 +47,7 @@ export default function App() {
           <input
             value={link}
             onChange={(e) => setLink(e.target.value)}
-            placeholder="Paste a YouTube or Spotify link"
+            placeholder="Paste a link from YouTube, Spotify, Apple Music, SoundCloud or Twitch"
             aria-label="Media link"
           />
           <button type="submit">Play</button>
@@ -72,7 +69,7 @@ export default function App() {
                     <span className="dot" style={{ background: service.color }} />
                     <span>
                       <strong>{service.name}</strong>
-                      <span className="muted"> {item.type}</span>
+                      <span className="muted"> {item.title}</span>
                     </span>
                   </button>
                   <button className="ghost small" onClick={() => remove(item)} aria-label="Remove from Continue">
