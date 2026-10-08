@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "desktop": "npm run build && electron .",
+    "desktop:dev": "STREAMHUB_DEV_URL=http://localhost:5173 electron ."
   },
   "dependencies": {
     "react": "^19.2.8",
@@ -19,9 +21,11 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
+    "electron": "github:castlabs/electron-releases#v44.5.1+wvcus",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.3"
-  }
+  },
+  "main": "electron/main.cjs"
 }
