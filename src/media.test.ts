@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { embedUrl, parseMediaLink } from './media'
+import { embedUrl, parseMediaLink, thumbnailUrl } from './media'
 
 describe('parseMediaLink', () => {
   it.each([
@@ -53,5 +53,13 @@ describe('embedUrl', () => {
     expect(embedUrl(parseMediaLink('twitch.tv/monstercat')!, 'localhost')).toBe('https://player.twitch.tv/?channel=monstercat&parent=localhost')
     expect(embedUrl(parseMediaLink('twitch.tv/videos/42')!, 'example.com')).toBe('https://player.twitch.tv/?video=v42&parent=example.com')
     expect(embedUrl(parseMediaLink('clips.twitch.tv/Abc')!, 'localhost')).toBe('https://clips.twitch.tv/embed?clip=Abc&parent=localhost')
+  })
+})
+
+describe('thumbnailUrl', () => {
+  it('uses YouTube video stills and nothing else', () => {
+    expect(thumbnailUrl(parseMediaLink('https://youtu.be/abc')!)).toBe('https://i.ytimg.com/vi/abc/hqdefault.jpg')
+    expect(thumbnailUrl(parseMediaLink('https://www.youtube.com/playlist?list=PLx')!)).toBeNull()
+    expect(thumbnailUrl(parseMediaLink('spotify:track:xyz')!)).toBeNull()
   })
 })

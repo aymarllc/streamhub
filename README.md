@@ -18,6 +18,7 @@ For desktop development, run `npm run dev` in one terminal and `npm run desktop:
 
 - Paste a link from YouTube, Spotify, Apple Music, SoundCloud or Twitch and it plays inside the app.
 - "Continue" keeps your recent items across services.
+- The look follows Apple's media apps: a sidebar on desktop, a tab bar on phones, and automatic light and dark mode.
 - The service list shows every planned service and how it will play: inside the app, in a desktop window, or by opening its own app.
 - In the desktop app, Netflix, Disney+, Max, Prime Video, Hulu, Apple TV+, Paramount+, Peacock, Tidal and Amazon Music open in their own StreamHub window. You sign in once per service and stay signed in.
 - On phones and TVs, those tiles open the service's own app when it's installed.

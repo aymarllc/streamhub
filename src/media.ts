@@ -140,3 +140,9 @@ export function audioHeight(item: MediaItem): number {
 export function itemKey(item: MediaItem): string {
   return `${item.service}:${item.type}:${item.id}`
 }
+
+/** Cover image for the Continue shelf, when the service offers one without an API key. */
+export function thumbnailUrl(item: MediaItem): string | null {
+  if (item.service === 'youtube' && item.type === 'video') return `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`
+  return null
+}

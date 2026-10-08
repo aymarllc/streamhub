@@ -9,7 +9,7 @@ const path = require('node:path')
 const electron = require('electron')
 const WEB_SERVICES = require('./web-services.json')
 
-const { app, BrowserWindow, ipcMain, shell, session } = electron
+const { app, BrowserWindow, ipcMain, nativeTheme, shell, session } = electron
 
 const DIST = path.join(__dirname, '..', 'dist')
 const DEV_URL = process.env.STREAMHUB_DEV_URL // set by `npm run desktop:dev`
@@ -92,8 +92,13 @@ async function createMainWindow() {
   const win = new BrowserWindow({
     width: 1280,
     height: 860,
+    minWidth: 720,
+    minHeight: 520,
     title: 'StreamHub',
-    backgroundColor: '#0e0f13',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#000000' : '#ffffff',
+    // On macOS the traffic lights sit over the app's own sidebar, like Apple's apps.
+    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
+    trafficLightPosition: { x: 20, y: 18 },
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
